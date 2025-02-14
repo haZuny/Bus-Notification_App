@@ -7,15 +7,6 @@ import 'view/page/mappage.dart';
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
-
-  if (File('pubspec.yaml').existsSync()){
-    print('env있음');
-  }
-  else{
-    print('없음');
-    print(Directory.current.path);
-  }
-
   await dotenv.load();
   AuthRepository.initialize(appKey: dotenv.env['KAKAOMAP_KEY'] ?? '');
 
