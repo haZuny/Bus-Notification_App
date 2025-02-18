@@ -1,32 +1,13 @@
-import 'package:location/location.dart';
+class LocationModel {
+  LocationModel({this.latitude = 0, this.longitude = 0, this.level = _DEFAULT_LEVEL});
 
-class LocationModel{
-  Location location = new Location();
+  static const int _DEFAULT_LEVEL = 0;
 
-  double? latitude;
-  double? longitude;
+  double latitude;
+  double longitude;
+  int level;
 
-  void setCuerrentLocation() async{
-
-    // 위치 사용 가능 여부 체크 요청
-    if (!await location.serviceEnabled()) {
-      if (!await location.requestService()) {
-        return;
-      }
-    }
-
-    // 권한 체크 및 요청
-    if (await location.hasPermission() == PermissionStatus.denied) {
-      if (await location.requestPermission() != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    var _locationData = await location.getLocation();
-    this.latitude = _locationData.latitude;
-    this.longitude = _locationData.longitude;
+  void setDefaultLevel(){
+    this.level = _DEFAULT_LEVEL;
   }
-
-
-
 }
