@@ -24,6 +24,7 @@ class LocationController extends GetxController {
     }
 
     var _locationData = await location.getLocation();
+    print(_locationData);
 
     if (_locationData.longitude != null && _locationData.latitude != null) {
       locationModel.value.latitude = _locationData.latitude!;

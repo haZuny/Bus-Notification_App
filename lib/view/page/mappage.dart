@@ -1,3 +1,4 @@
+import 'package:bus_notification/model/aroundStationList.dart';
 import 'package:bus_notification/view_model/loadingController.dart';
 import 'package:bus_notification/view_model/locationController.dart';
 import 'package:flutter/cupertino.dart';
@@ -66,6 +67,11 @@ class _MapPage extends State<MapPage> {
           print("로딩끝");
           _mapController.setCenter(_locationController.getLatLng());
           _mapController.setLevel(_locationController.getLevel());
+          
+          
+          var around = AroundStationList();
+          around.getAroundStation(37.33605, 127.1013632);
+          
         },
         backgroundColor: Colors.transparent,
         shape: CircleBorder(),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bus_notification/app_config.dart';
 import 'package:bus_notification/view/widgets/loading.dart';
 import 'package:bus_notification/view_model/loadingController.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
-  AuthRepository.initialize(appKey: dotenv.env['KAKAOMAP_KEY'] ?? '');
+  AuthRepository.initialize(appKey: dotenv.env[VARNAME_KAKAOMAPKEY] ?? '');  // kakaomap 연동
 
   // getX 로딩 컨트롤러 주입
   await Get.put(LoadingController(true));
