@@ -55,6 +55,10 @@ class _MapPage extends State<MapPage> {
               onMapTap: (latLng) {
                 print("터치: " + latLng.toString());
               },
+              onDragChangeCallback: (latLng, zoomLevel, dragType) {
+                // 지도 위치 업데이트
+                _locationController.setLocation(latLng.latitude, latLng.longitude);
+              },
             );
           }),
       floatingActionButton: FloatingActionButton(
@@ -68,10 +72,9 @@ class _MapPage extends State<MapPage> {
           _mapController.setCenter(_locationController.getLatLng());
           _mapController.setLevel(_locationController.getLevel());
           
-          
+          // 주변 정류장 탐색(다른 이벤트로 이동 예정)
           var around = AroundStationList();
-          around.getAroundStation(37.33605, 127.1013632);
-          
+          around.getAroundStation(_locationController.getLatLng().latitude, _locationController.getLatLng().longitude);
         },
         backgroundColor: Colors.transparent,
         shape: CircleBorder(),

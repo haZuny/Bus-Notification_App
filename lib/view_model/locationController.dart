@@ -34,6 +34,12 @@ class LocationController extends GetxController {
     }
   }
 
+  // 특정 위치로 설정
+  void setLocation(double lat, double lon){
+    this.locationModel.value.latitude = lat;
+    this.locationModel.value.longitude = lon;
+  }
+
   void setDeafaultLevel() {
     locationModel.value.setDefaultLevel();
   }
