@@ -5,6 +5,4 @@ import 'package:mockito/mockito.dart';
 
 class MockLocation extends Mock implements Location{
 
-
-
 }

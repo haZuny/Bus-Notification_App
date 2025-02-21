@@ -1,5 +1,8 @@
 import 'package:bus_notification/model/aroundStationModel.dart';
+import 'package:bus_notification/model/busInfoModel.dart';
+import 'package:bus_notification/view/page/stationInfoPage.dart';
 import 'package:bus_notification/view_model/aroundStationController.dart';
+import 'package:bus_notification/view_model/busInfoController.dart';
 import 'package:bus_notification/view_model/loadingController.dart';
 import 'package:bus_notification/view_model/locationController.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,11 +21,11 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPage extends State<MapPage> {
-
   // getX Controller
   LocationController _locationController = LocationController();
   final LoadingController _loadingController = Get.find();
   final AroundStationListController _aroundStationListController = Get.find();
+  final BusInfoController _busInfoController = Get.find();
 
   // about Kakaomap
   late KakaoMapController _mapController;
@@ -51,36 +54,39 @@ class _MapPage extends State<MapPage> {
                 _loadingController.setLoadingState(false);
               });
             }
-            return Obx(() =>
-                KakaoMap(
-                  center: _locationController.getLatLng(),
-                  currentLevel: _locationController.getLevel(),
-                  markers: _aroundStationListController.getMarkerList(),
-                  onMapCreated: ((controller) async {
-                    // 맵 컨트롤러 할당
-                    _mapController = controller;
-                    // 주변 정류장 마커 초기화
-                    double lat = _locationController.locationModel.value.latitude;
-                    double lng = _locationController.locationModel.value.longitude;
-                    _aroundStationListController.setAroundStationList(lat, lng);
-                  }),
-                  onMapTap: (latLng) {
-                    print("터치: " + latLng.toString());
-                  },
+            return Obx(
+              () => KakaoMap(
+                center: _locationController.getLatLng(),
+                currentLevel: _locationController.getLevel(),
+                markers: _aroundStationListController.getMarkerList(),
 
-                  /// 지도 드래그 이벤트
-                  onDragChangeCallback: (latLng, zoomLevel, dragType) {
-                    // center 위치 추적
-                    _locationController.setLocation(
-                        latLng.latitude, latLng.longitude);
-                  },
-                ),);
+                /// 마커 클릭 이벤트
+                onMarkerTap: (markerId, latLng, zoomLevel) async {
+                  Get.toNamed('/stationInfoPage',
+                      arguments: {'stationId': markerId});
+                },
+                onMapCreated: ((controller) async {
+                  // 맵 컨트롤러 할당
+                  _mapController = controller;
+                  // 주변 정류장 마커 초기화
+                  double lat = _locationController.locationModel.value.latitude;
+                  double lng =
+                      _locationController.locationModel.value.longitude;
+                  _aroundStationListController.setAroundStationList(lat, lng);
+                }),
+
+                /// 지도 드래그 이벤트
+                onDragChangeCallback: (latLng, zoomLevel, dragType) {
+                  // center 위치 추적
+                  _locationController.setLocation(
+                      latLng.latitude, latLng.longitude);
+                },
+              ),
+            );
           }),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-
         children: [
-
           ///
           /// 현재 위치로 이동 버튼
           ///
@@ -106,6 +112,7 @@ class _MapPage extends State<MapPage> {
               size: 50,
               color: Colors.lightGreen,
             ),
+            heroTag: 'go_current_location',
           ),
 
           ///
@@ -126,6 +133,7 @@ class _MapPage extends State<MapPage> {
               size: 50,
               color: Colors.lightGreen,
             ),
+            heroTag: 'update_around_station_list',
           )
         ],
       ),
