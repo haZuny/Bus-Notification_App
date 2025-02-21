@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class LocationController extends GetxController {
   Rx<LocationModel> locationModel = LocationModel().obs;
-  Location location = new Location(); // 현재 위치 정보를 얻기 위한 객체
+  Location location = new Location(); // 현재 위치 정보를 얻기 위한 객체(native)
 
   // 현재 위치로 설정
   Future<void> setCuerrentLocation() async {
@@ -24,7 +24,6 @@ class LocationController extends GetxController {
     }
 
     var _locationData = await location.getLocation();
-    print(_locationData);
 
     if (_locationData.longitude != null && _locationData.latitude != null) {
       locationModel.value.latitude = _locationData.latitude!;

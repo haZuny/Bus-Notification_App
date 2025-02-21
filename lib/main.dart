@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bus_notification/app_config.dart';
 import 'package:bus_notification/view/widgets/loading.dart';
+import 'package:bus_notification/view_model/aroundStationController.dart';
 import 'package:bus_notification/view_model/loadingController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,6 +17,7 @@ void main() async {
 
   // getX 로딩 컨트롤러 주입
   await Get.put(LoadingController(true));
+  await Get.put(AroundStationListController());
 
   runApp(const MyApp());
 }
@@ -41,7 +43,8 @@ class MyApp extends StatelessWidget {
             // 로딩 상태에 따라 loading indicator 가 보여질지 결정
             Obx(() => Visibility(
                 visible: _loadingController.state.value,
-                child: Loading()))
+                child: Loading())),
+            Image.asset('assets/img/station.png')
           ],
         ));
   }

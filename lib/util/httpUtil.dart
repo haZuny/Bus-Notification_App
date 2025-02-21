@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bus_notification/model/aroundStationList.dart';
+import 'package:bus_notification/model/aroundStationModel.dart';
 import 'package:http/http.dart' as http;
 
 String buildUrlWithParams(String baseUrl, Map<String, String> params) {
